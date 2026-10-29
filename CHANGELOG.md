@@ -1,5 +1,11 @@
 # @kgoggin/facts-checker
 
+## 0.3.0
+
+### Minor Changes
+
+- [#7](https://github.com/kgoggin/facts-checker/pull/7) [`62c038f`](https://github.com/kgoggin/facts-checker/commit/62c038fbdf51d4a66b8a8e8409008b34cc64c486) Thanks [@kgoggin](https://github.com/kgoggin)! - Add a bring-your-own-auth API entry point for authenticated fetch implementations.
+
 ## 0.2.0
 
 ### Minor Changes
