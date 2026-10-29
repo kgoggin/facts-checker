@@ -33,6 +33,10 @@
       "types": "./dist/client.d.ts",
       "import": "./dist/client.js"
     },
+    "./api": {
+      "types": "./dist/api.d.ts",
+      "import": "./dist/api.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [

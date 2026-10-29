@@ -61,6 +61,31 @@ Methods:
 
 Every method accepts `{ signal }`.
 
+## Bring your own auth
+
+Use `@kgoggin/facts-checker/api` when an OAuth proxy, token manager, or bundled or sandboxed runtime handles authentication:
+
+```ts
+import { createApi } from '@kgoggin/facts-checker/api';
+
+const facts = createApi({
+  fetch: async (url, init) => fetch(url, {
+    ...init,
+    headers: { ...init.headers, authorization: `Bearer ${await getToken()}` },
+  }),
+});
+
+for (const student of await facts.students()) {
+  console.log(student.name, await facts.homework(student));
+}
+```
+
+`getToken()` is supplied by your host. You can also pass a proxy's authenticated `fetch`, or `globalThis.fetch` when the host authenticates requests itself. This entry point contains the same `get(path)`, `students()` and `homework(student | id)` methods and response checks as the client, without importing the library's login modules. All three methods accept `{ signal }`; requests have a 30-second timeout and reject redirects.
+
+The API adds no authorization header and never logs in, refreshes or retries. Your `fetch` receives an absolute URL and request options. A `401` throws `FACTS_LOGIN_REQUIRED`; other failed or unsupported responses throw `FACTS_UNAVAILABLE`.
+
+`API_BASE` and `FACTS_OAUTH` are exported from `.`, `./api`, `./auth` and `./client`. An OAuth-aware host can use `FACTS_OAUTH.issuer`, `authorizationEndpoint`, `tokenEndpoint`, `clientId`, `redirectUri` and `scopes` to configure the public PKCE client. FACTS only registers the mobile-app redirect (`com.renweb.accounts:/oauthredirect`), so these hosts must be seeded with a refresh token obtained through the app's sign-in flow, rather than running sign-in themselves.
+
 ## Auth
 
 Use `@kgoggin/facts-checker/auth` if you only want tokens:

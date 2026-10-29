@@ -1,13 +1,13 @@
 import { randomBytes, createHash } from 'node:crypto';
 import { load } from 'cheerio';
 import { CookieJar } from 'tough-cookie';
+import { FACTS_OAUTH } from './config.js';
 import { FactsError, timeoutSignal } from './errors.js';
 import { nelnetLogin, NELNET } from './nelnet.js';
 import type { Credentials, OtpProvider, Tokens } from './types.js';
 
-export const ISSUER = 'https://accounts.renweb.com';
-export const REDIRECT = 'com.renweb.accounts:/oauthredirect';
-const CLIENT = 'aware3';
+export const ISSUER = FACTS_OAUTH.issuer;
+export const REDIRECT = FACTS_OAUTH.redirectUri;
 
 export type Page = { callback: string } | { url: string; html: string; callback?: undefined };
 type Options = Omit<RequestInit, 'headers'> & { headers?: Record<string, string> };
@@ -21,9 +21,9 @@ export interface Authorization { url: URL; verifier: string; state: string }
 export function authorization(): Authorization {
   const verifier = randomBytes(32).toString('base64url');
   const state = randomBytes(32).toString('base64url');
-  const url = new URL('/connect/authorize', ISSUER);
-  url.search = new URLSearchParams({ client_id: CLIENT, response_type: 'code',
-    scope: 'openid aware3UserInfo aware3UserConfig offline_access nbsMobileAppApi',
+  const url = new URL(FACTS_OAUTH.authorizationEndpoint);
+  url.search = new URLSearchParams({ client_id: FACTS_OAUTH.clientId, response_type: 'code',
+    scope: FACTS_OAUTH.scopes.join(' '),
     redirect_uri: REDIRECT, code_challenge_method: 'S256',
     code_challenge: createHash('sha256').update(verifier).digest('base64url'),
     state, nonce: randomBytes(32).toString('base64url') }).toString();
@@ -124,8 +124,8 @@ export async function formBody(form: Form, credentials: Partial<Credentials>, ot
 export async function tokenRequest(values: Record<string, string>, signal?: AbortSignal): Promise<Tokens> {
   let response: Response;
   try {
-    response = await fetch(`${ISSUER}/connect/token`, { method: 'POST', redirect: 'error', signal: timeoutSignal(signal),
-      body: new URLSearchParams({ client_id: CLIENT, ...values }) });
+    response = await fetch(FACTS_OAUTH.tokenEndpoint, { method: 'POST', redirect: 'error', signal: timeoutSignal(signal),
+      body: new URLSearchParams({ client_id: FACTS_OAUTH.clientId, ...values }) });
   } catch (cause) {
     if (signal?.aborted) throw cause;
     throw new FactsError('FACTS_UNAVAILABLE', 'FACTS token endpoint is unavailable.', { cause });
