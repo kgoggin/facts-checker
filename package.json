@@ -48,7 +48,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "changeset": "changeset",
-    "release": "npm run build && changeset publish",
+    "release": "scripts/release.sh",
     "prepack": "npm run build",
     "commitlint": "commitlint"
   },
