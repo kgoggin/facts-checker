@@ -23,6 +23,24 @@ FACTS_TOTP_SECRET=JBSWY3DPEHPK3PXP   # base32 secret or otpauth:// URI
 
 You get the TOTP secret when you add FACTS to an authenticator app: it's the key behind the setup QR code. Many apps can export it. Anything passed in code takes precedence over these variables.
 
+## Command line
+
+Run a single login and print its refresh token, or use `--json` for both tokens, the access-token expiry as an ISO string, and the OAuth/API configuration:
+
+```sh
+npx @kgoggin/facts-checker token
+npx @kgoggin/facts-checker token --json
+npx @kgoggin/facts-checker token | pbcopy
+```
+
+**Security warning:** this command deliberately prints live credentials. Treat the refresh token like a password, and keep tokens out of shell history, logs and CI output. JSON output also contains a live access token.
+
+The command uses the `FACTS_*` environment variables above. On a terminal it prompts for missing values without echoing input. Leave the authenticator secret blank to enter MFA codes interactively; email codes and email destination choices are also prompted for. Without a terminal, the required credentials and `FACTS_TOTP_SECRET` must be set. Login runs once, with no retries, and nothing is written to disk.
+
+The CLI does not load `.env` automatically. With a local installation, Node can load it with `node --env-file=.env node_modules/@kgoggin/facts-checker/dist/cli.js token`.
+
+`npx @kgoggin/facts-checker config` prints `{ oauth, apiBase }` as JSON without logging in. `--help` (or no arguments) prints usage. Tokens and configuration go to stdout; prompts, progress, help and errors go to stderr. Exit codes are `0` for success/help, `1` for configuration or login errors, and `2` for invalid arguments.
+
 ## Client
 
 ```ts

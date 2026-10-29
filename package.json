@@ -20,6 +20,9 @@
   "engines": {
     "node": ">=20.18.1"
   },
+  "bin": {
+    "facts-checker": "./dist/cli.js"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -44,7 +47,7 @@
     "src"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json && chmod +x dist/cli.js",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "changeset": "changeset",
