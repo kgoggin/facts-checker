@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.*
+!.env.example
+data/
+*.sqlite*
+*.har
+.DS_Store
+artifacts/
+.test-data/
+compose.override.yaml
+dist/

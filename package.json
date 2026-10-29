@@ -1,0 +1,64 @@
+{
+  "name": "@kgoggin/facts-checker",
+  "version": "0.1.2",
+  "description": "Log in to FACTS (RenWeb) family portal and read the FACTS mobile API from TypeScript/Node.",
+  "license": "MIT",
+  "author": "Kyle Goggin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kgoggin/facts-checker.git"
+  },
+  "keywords": [
+    "facts",
+    "renweb",
+    "nelnet",
+    "sis",
+    "homework",
+    "school"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=20.18.1"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./auth": {
+      "types": "./dist/auth.d.ts",
+      "import": "./dist/auth.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "changeset": "changeset",
+    "release": "npm run build && changeset publish",
+    "prepack": "npm run build",
+    "commitlint": "commitlint"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "tough-cookie": "^6.0.2"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}
