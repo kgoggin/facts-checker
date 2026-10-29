@@ -1,5 +1,11 @@
 # @kgoggin/facts-checker
 
+## 0.4.0
+
+### Minor Changes
+
+- [#11](https://github.com/kgoggin/facts-checker/pull/11) [`1f91aa9`](https://github.com/kgoggin/facts-checker/commit/1f91aa95c5d0cb96f602bce170726cfd2fb2a5f6) Thanks [@kgoggin](https://github.com/kgoggin)! - Add the facts-checker CLI to obtain refresh tokens and OAuth configuration.
+
 ## 0.3.0
 
 ### Minor Changes
