@@ -7,6 +7,7 @@
 - `src/protocol.ts` has the FACTS OAuth (PKCE) flow, the cookie-carrying login session, and form handling for the legacy login pages.
 - `src/nelnet.ts` drives the Nelnet SPA API: sign-in, authenticator MFA and email MFA.
 - `src/auth.ts` is the public `@kgoggin/facts-checker/auth` entry point. It has `login`, `refresh` and the `FACTS_*` environment handling.
+- `src/cli.ts` implements the `facts-checker` command. Its exported `main` accepts injected IO and login for tests.
 - `src/client.ts` is the public `@kgoggin/facts-checker/client` entry point. `FactsClient` handles token lifecycle and typed API methods.
 - `src/totp.ts` implements RFC 6238 itself, with no dependency.
 - `src/index.ts` re-exports the public API. Anything not exported there is internal.
@@ -18,7 +19,7 @@
 - **Keep redirects and form posts on the allowlist.** Credentials only go to `accounts.renweb.com` and `login.nelnet.net`. Don't loosen the origin checks.
 - **Don't change the protocol on a guess.** If an endpoint or response shape changes, verify it against a live account and update `docs/research.md`.
 - **Raise `FactsError` from public code paths,** using one of the existing codes. Add a code only if callers need to handle it differently.
-- **Never commit secrets.** `.env` is gitignored. Never print tokens, passwords or TOTP secrets in logs or test output.
+- **Never commit secrets.** `.env` is gitignored. Never print tokens, passwords or TOTP secrets in logs or test output. The `token` command's stdout is the one deliberate exception for tokens; prompts, progress and errors belong on stderr, and inputs must never be echoed.
 
 ## Checks
 
