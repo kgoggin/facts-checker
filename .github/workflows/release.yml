@@ -36,10 +36,10 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with: { node-version: 24, cache: npm, registry-url: 'https://registry.npmjs.org' }
-      # Trusted publishing (OIDC, no NPM_TOKEN) needs npm >= 11.5.1.
+      # Staged publishing over OIDC (no NPM_TOKEN) needs a recent npm.
       - run: npm install -g npm@latest
       - run: npm ci
       - run: npm run typecheck && npm test
-      - uses: changesets/action/publish@v2
-        with: { script: npm run release }
-        env: { NPM_CONFIG_PROVENANCE: 'true' }
+      # Stages the release on npm. A maintainer approves it with 2FA to publish it.
+      - run: npm run release
+        env: { GH_TOKEN: '${{ github.token }}' }

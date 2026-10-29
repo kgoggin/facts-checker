@@ -136,7 +136,8 @@ Releases use [Changesets](https://github.com/changesets/changesets). Don't bump 
 
 1. In any PR that changes published behaviour, run `npx changeset`. Choose the bump that matches the commit type: `fix`/`perf` is patch, `feat` is minor, and a breaking change is major. Commit the generated file.
 2. After the PR merges to `main`, the release workflow opens a "Version Packages" PR that bumps the version and updates `CHANGELOG.md`.
-3. Merging "Version Packages" publishes to npm via trusted publishing and creates the git tag and GitHub release.
+3. Merging "Version Packages" stages the version on npm via trusted publishing and creates the git tag and GitHub release.
+4. A maintainer approves the staged version with 2FA on npmjs.com or with `npm stage approve`. Until then it isn't installable.
 
 See [AGENTS.md](AGENTS.md) for contributor and agent guidelines.
 

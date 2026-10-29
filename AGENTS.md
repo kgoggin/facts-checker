@@ -55,4 +55,5 @@ Releases go through [Changesets](https://github.com/changesets/changesets). Neve
 
 1. Every PR that changes published behaviour includes a changeset. Run `npx changeset`, choose the bump from the table above, write a one-line summary for library users and commit the generated `.changeset/*.md`.
 2. When that PR merges to `main`, `.github/workflows/release.yml` opens or updates a "Version Packages" PR. That PR bumps the version and updates `CHANGELOG.md`.
-3. Merging "Version Packages" publishes to npm through trusted publishing (OIDC, with provenance) and creates the git tag and GitHub release.
+3. Merging "Version Packages" runs `scripts/release.sh`. It stages the version on npm through trusted publishing (OIDC, with provenance) and creates the git tag and GitHub release.
+4. The version isn't installable until a maintainer approves it with 2FA, on npmjs.com or with `npm stage approve`. CI can't approve. If a staged version is rejected, delete its tag and GitHub release by hand.
