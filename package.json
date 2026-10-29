@@ -1,6 +1,6 @@
 {
   "name": "@kgoggin/facts-checker",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Log in to FACTS (RenWeb) family portal and read the FACTS mobile API from TypeScript/Node.",
   "license": "MIT",
   "author": "Kyle Goggin",
