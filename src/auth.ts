@@ -3,6 +3,7 @@ import { runLogin, tokenRequest } from './protocol.js';
 import { freshTotp, parseTotpSecret } from './totp.js';
 import type { Credentials, OtpProvider, Tokens } from './types.js';
 
+export { API_BASE, FACTS_OAUTH } from './config.js';
 export type { Credentials, OtpProvider, OtpRequest, Tokens } from './types.js';
 export { FactsError, type FactsErrorCode } from './errors.js';
 
