@@ -10,3 +10,4 @@ artifacts/
 .test-data/
 compose.override.yaml
 dist/
+.token-probe/

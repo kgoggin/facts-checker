@@ -39,3 +39,35 @@ The earlier experiment completed FACTS/Nelnet OTP login, token refresh, school/s
 - Upstream refresh succeeded without password or OTP. Refresh lifetime/revocation policy remains unknown.
 
 Grade endpoints above are research only; the client exposes homework only and writes nothing to disk.
+
+## Token lifetime
+
+**Results pending.** Refresh-token lifetime, rotation, concurrent-grant revocation and
+FACTS mobile-app effects have not been measured. IdentityServer's possible 15-day
+sliding / 30-day absolute defaults are a hypothesis, not an observed FACTS policy.
+
+The dev-only [token probe](token-probe.md) creates six independent grants. `rolling` is
+the first login and refreshes every six hours, keeping replacement tokens; the next
+five logins let its first check test whether later grants revoke earlier ones. `reuse`
+refreshes once, then tests the original token once if rotation occurred. `idle-1d`,
+`idle-7d`, `idle-16d` and `idle-31d` stay untouched until their own login ages reach
+those targets, then refresh once. Rejected lanes stop permanently; unavailable
+attempts are logged and left for the next scheduled check. Manual marks correlate
+phone-app logins/logouts with later refresh outcomes.
+
+The maintainer will run the experiment; implementation and fixture tests do not contact
+FACTS. Fill this table from `.token-probe/log.jsonl` and `report` after collecting results.
+The private state includes live tokens and must not be committed or shared. Logs use
+token hashes and whitelisted metadata; review manual notes before sharing them.
+
+| Question | Evidence to collect | Result |
+| --- | --- | --- |
+| Unused lifetime; sliding window and absolute cap | Four idle-lane outcomes at actual ages; rolling last success and first rejection across weeks | Pending |
+| Rotation; old token accepted after rotation? | Rolling token hashes; reuse lane's first refresh and old-token outcome | Pending |
+| Do new logins invalidate previous grants? | First rolling check after the five later lane logins | Pending |
+| Do mobile-app login/logout events invalidate grants? | Timestamped manual marks and checks before/after each event | Pending |
+
+Six-hour sampling bounds expiration rather than proving its exact instant. An idle
+success establishes a lower bound, and a transient failure establishes neither expiry
+nor revocation. Concurrent-grant or phone-app revocation may confound lifetime results;
+isolate those effects in follow-up experiments if observed.

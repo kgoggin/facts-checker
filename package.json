@@ -43,6 +43,7 @@
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "probe": "node --env-file=.env scripts/token-probe.mjs",
     "changeset": "changeset",
     "release": "npm run build && changeset publish",
     "prepack": "npm run build",

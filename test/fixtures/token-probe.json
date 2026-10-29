@@ -1,0 +1,26 @@
+{
+  "claims": {
+    "iat": 1700000000,
+    "exp": 1700003600,
+    "nbf": 1700000000,
+    "auth_time": 1699999990,
+    "client_id": "aware3",
+    "scope": "openid offline_access",
+    "idp": "fixture-provider",
+    "amr": ["pwd", "mfa"],
+    "sub": "private-fixture-subject",
+    "email": "fixture@example.invalid",
+    "name": "Private Fixture Name"
+  },
+  "response": {
+    "token_type": "Bearer",
+    "scope": "openid offline_access",
+    "expires_in": 3600,
+    "refresh_token_expires_in": 1296000,
+    "absolute_expires_at": "2026-11-29T00:00:00Z",
+    "expires_unsafe": "private-fixture-value",
+    "id_token": "private-fixture-id-token",
+    "session_state": "private-fixture-session",
+    "extra": { "password": "private-fixture-password" }
+  }
+}
